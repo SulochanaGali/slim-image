@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git 'https://github.com/kss7/SimpleFlaskUI.git'
+                git 'https://github.com/SulochanaGali/slim-image.git'
             }
         } 
         stage('Build Docker Image') {  
