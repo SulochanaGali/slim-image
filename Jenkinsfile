@@ -5,6 +5,12 @@ pipeline {
         registryCredential = 'docker-hub-login'
         dockerImage = ''        
     }
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+        checkoutToSubdirectory('slim-image')
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
     agent any
     stages {
         // stage('checkout') {
