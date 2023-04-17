@@ -12,6 +12,12 @@ pipeline {
                 git 'https://github.com/kss7/SimpleFlaskUI.git'
             }
         } 
+        stage('Build Docker Image') {  
+            steps{                     
+	            sh 'docker build -t myapp1:0.2 .'     
+	            echo 'Build Image Completed'                
+            }           
+        } 
         // stage('Push To DockerHub') {
         //     steps {
         //         script {
