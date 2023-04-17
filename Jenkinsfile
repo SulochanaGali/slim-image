@@ -14,7 +14,7 @@ pipeline {
         } 
         stage('Build Docker Image') {  
             steps{                     
-	            sh 'docker build -t myapp1:0.2 .'     
+	            sh 'docker build -t myapp:0.2 .'     
 	            echo 'Build Image Completed'                
             }           
         } 
