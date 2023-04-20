@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('sonarqube-test') {
-                    bat '''C:\sonarqube-10.0.0.68432\sonar-scanner-4.8.0.2856-windows\bin\sonar-scanner.bat -Dsonar.projectKey=key-python-demoapp -Dsonar.sources=. -Dsonar.host.url="http://localhost:9008" -Dsonar.token=sqp_8d01c0fda0bd3f1ffe0588f3fa69125a9cf1485f'''
+                    bat '''C:\sonarqube-10.0.0.68432\sonar-scanner-4.8.0.2856-windows\bin\sonar-scanner.bat'''
                 }
             }
         }
