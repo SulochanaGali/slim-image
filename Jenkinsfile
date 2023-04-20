@@ -7,7 +7,7 @@ pipeline {
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
-        timestamps()
+        //timestamps()
         checkoutToSubdirectory('slim-image')
         buildDiscarder(logRotator(numToKeepStr: '30'))
     }
@@ -20,19 +20,21 @@ pipeline {
         } 
         stage('Build Docker Image') {  
             steps{                     
-	            sh 'docker build -t myapp:0.2 .'     
+	            //bat 'docker build -t myapp:0.4 .'  
+	            //bat 'docker stop $(docker ps)'
+	            bat 'docker run -itd -p 9009:5000 myapp:0.4'
 	            echo 'Build Image Completed'                
             }           
         } 
         stage('SonarCloud') {
             environment {
-                SCANNER_HOME = tool 'SonarQubeScanner'                
+                //SCANNER_HOME = tool 'SonarQubeScanner'                
                 PROJECT_NAME = "key-python-demoapp"
     
             }
             steps {
-                withSonarQubeEnv('SonarCloudOne') {
-                    bat '''sonar-scanner.bat -D"sonar.projectKey=key-python-demoapp" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9008" -D"sonar.token=sqp_8d01c0fda0bd3f1ffe0588f3fa69125a9cf1485f"'''
+                withSonarQubeEnv('sonarqube-test') {
+                    bat '''C:\sonarqube-10.0.0.68432\sonar-scanner-4.8.0.2856-windows\bin\sonar-scanner.bat -D"sonar.projectKey=key-python-demoapp" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9008" -D"sonar.token=sqp_8d01c0fda0bd3f1ffe0588f3fa69125a9cf1485f"'''
                 }
             }
         }
