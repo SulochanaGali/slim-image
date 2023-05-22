@@ -1,0 +1,6 @@
+projectKey=key-python-demoapp
+serverUrl=http://localhost:9008
+serverVersion=10.0.0.68432
+dashboardUrl=http://localhost:9008/dashboard?id=key-python-demoapp
+ceTaskId=AYeis-p75_ihH3DCgHxM
+ceTaskUrl=http://localhost:9008/api/ce/task?id=AYeis-p75_ihH3DCgHxM

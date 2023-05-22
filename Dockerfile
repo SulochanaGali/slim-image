@@ -7,4 +7,4 @@ ENV https_proxy http://host.docker.internal:3128
 ADD . /python-flask
 WORKDIR /python-flask
 RUN pip install -r requirements.txt
-CMD [ "python", "./myapp.py" ]
+CMD [ "python", "./myapp.py" ] 
