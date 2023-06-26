@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry('https://bcr-de01.inside.bosch.cloud/', registryCredential ) {
+          docker.withRegistry('https://bcr-de01.inside.bosch.cloud/repositories/', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
              dockerImage.push('latest')
 
