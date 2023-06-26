@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "ngl7kor/jenkins_test/myapp1"
+    imagename = "ngl7kor/jenkins_test:myapp-v1"
     registryCredential = 'mirantis-jenkins'
     dockerImage = ''
   }
@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry('https://bcr-de01.inside.bosch.cloud/repositories/', registryCredential ) {
+          docker.withRegistry('https://bcr-de01.inside.bosch.cloud/', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
              dockerImage.push('latest')
 
