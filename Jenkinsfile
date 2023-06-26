@@ -1,39 +1,59 @@
-pipeline{
+pipeline {
+  environment {
+    imagename = "ngl7kor/jenkins_test/myapp1"
+    registryCredential = 'mirantis-jenkins'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/SulochanaGali/slim-image.git'
 
-	agent any
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    // stage('SonarQube Analysis') {
+    //     environment {
+                         
+    //         PROJECT_NAME = "key-python-demoapp"    
+    //     }
+    //     steps {
+    //         withSonarQubeEnv('sonarqube-test') {
+    //             bat 'C:\\sonarqube-10.0.0.68432\\sonar-scanner-4.8.0.2856-windows\\bin\\sonar-scanner -Dsonar.projectKey=key-python-demoapp -Dsonar.sources=. -Dsonar.host.url=http://localhost:9009 -Dsonar.login=sqp_8d01c0fda0bd3f1ffe0588f3fa69125a9cf1485f'
+    //         }
+    //     }
+    // }  
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry('https://bcr-de01.inside.bosch.cloud/', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
 
-	environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-	}
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+		bat "docker rmi $imagename:$BUILD_NUMBER"
+        bat "docker rmi $imagename:latest"
+      }
+    }
 
-	stages {
+    // docker.withRegistry('https://registry.example.com', 'credentials-id') {
 
-		stage('Build') {
+    //     def customImage = docker.build("my-image:${env.BUILD_ID}")
 
-			steps {
-				sh 'docker build -t ngl7kor/myapp:latest .'
-			}
-		}
-
-		stage('Login') {
-
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker ngl7kor/myapp:latest'
-			}
-		}
-	}
-
-	post {
-		always {
-			sh 'docker logout'
-		}
-	}
-
+    //     /* Push the container to the custom Registry */
+    //     customImage.push()
+    // }
+  }
 }
