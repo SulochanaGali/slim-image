@@ -1,0 +1,4 @@
+kubectl get secrets token-secret  -o=jsonpath='{.data.token}' -n devops-tools | base64 -d
+kubectl cluster-info
+kubectl config view
+kubectl config current-context
