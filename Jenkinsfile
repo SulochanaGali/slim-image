@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "ngl7kor/jenkins_test"
+    imagename = "ngl7kor/myapp-v1"
     registryCredential = 'mirantis-jenkins'
     dockerImage = ''
   }
@@ -34,17 +34,16 @@ pipeline {
       steps{
         script {
           docker.withRegistry('https://bcr-de01.inside.bosch.cloud/', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
+            dockerImage.tag("V1"+ "$BUILD_NUMBER")
+            dockerImage.push("V1"+ "$BUILD_NUMBER")
+            dockerImage.push('latest')
           }
         }
       }
     }
     stage('Remove Unused docker image') {
       steps{
-		bat "docker rmi $imagename:$BUILD_NUMBER"
-        bat "docker rmi $imagename:latest"
+		bat "docker rmi $imagename:$BUILD_NUMBER"        
       }
     }
 
