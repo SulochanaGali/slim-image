@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "ngl7kor/jenkins-test"
+    imagename = "ngl7kor/jenkins_test"
     registryCredential = 'mirantis-jenkins'
     dockerImage = ''
   }
@@ -9,7 +9,6 @@ pipeline {
     stage('Cloning Git') {
       steps {
         git 'https://github.com/SulochanaGali/slim-image.git'
-
       }
     }
     stage('Building image') {
@@ -34,25 +33,17 @@ pipeline {
       steps{
         script {
           docker.withRegistry('https://bcr-de01.inside.bosch.cloud/', registryCredential ) {
-            dockerImage.tag("V1"+ "$BUILD_NUMBER")
-            dockerImage.push("V1"+ "$BUILD_NUMBER")
+            dockerImage.tag("V1$BUILD_NUMBER")
+            dockerImage.push("V1$BUILD_NUMBER")
             dockerImage.push('latest')
           }
         }
       }
     }
     stage('Remove Unused docker image') {
-      steps{
-		bat "docker rmi $imagename:$BUILD_NUMBER"        
+      steps{          
+		bat "docker rmi $imagename:latest"        
       }
     }
-
-    // docker.withRegistry('https://registry.example.com', 'credentials-id') {
-
-    //     def customImage = docker.build("my-image:${env.BUILD_ID}")
-
-    //     /* Push the container to the custom Registry */
-    //     customImage.push()
-    // }
   }
 }
