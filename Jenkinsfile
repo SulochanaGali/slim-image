@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "ngl7kor/myapp-v1"
+    imagename = "ngl7kor/jenkins-test"
     registryCredential = 'mirantis-jenkins'
     dockerImage = ''
   }
